@@ -2,5 +2,14 @@
   "storeName": "AgentOS Store",
   "subtitle": "Discover micro-apps, skills, tools, games & themes for AgentOS",
   "version": 1,
-  "categories": []
+  "categories": [
+    {
+      "id": "tool",
+      "name": "Tools",
+      "icon": "🔧",
+      "items": [
+        "tools/calculator.json"
+      ]
+    }
+  ]
 }
