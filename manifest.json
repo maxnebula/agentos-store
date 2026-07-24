@@ -8,7 +8,8 @@
       "name": "Tools",
       "icon": "🔧",
       "items": [
-        "tools/calculator.json"
+        "tools/calculator.json",
+        "tools/webview_demo.json"
       ]
     }
   ]

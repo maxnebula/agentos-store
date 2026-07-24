@@ -1,0 +1,11 @@
+{
+  "id": "webview_demo",
+  "name": "WebView Demo",
+  "icon": "🌐",
+  "description": "Demonstrates native WebView rendering works correctly",
+  "longDescription": "A test micro-app that proves WebView renders properly with dark background, correct sizing, and working JavaScript.",
+  "category": "tool",
+  "version": "1.0.0",
+  "author": "maxnebula",
+  "instructions": "<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,sans-serif;background:#0A0A0F;color:#e0e0e0;padding:20px;min-height:100vh}h1{color:#8B5CF6;font-size:26px;margin-bottom:20px;font-weight:700}.card{background:#151528;border-radius:14px;padding:18px;margin-bottom:12px;border:1px solid #2a2a3d}.label{color:#8B8FA3;font-size:12px;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px}.value{color:#fff;font-size:20px;font-weight:600}.badge{display:inline-block;background:#10B981;color:#fff;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:600;margin-top:8px}.row{display:flex;gap:10px;margin-bottom:12px}.row button{flex:1;background:#2a2a3d;border:none;border-radius:12px;padding:16px;color:#e0e0e0;font-size:16px;cursor:pointer;touch-action:manipulation}.row button:active{filter:brightness(1.4)}.row button.purple{background:#7c3aed;color:#fff}.counter{font-size:48px;font-weight:700;color:#8B5CF6;text-align:center;padding:20px}.mt20{margin-top:12px}</style><div class=card><div class=label>Rendering Status</div><div class=value>Dark Background (#0A0A0F) - OK</div><span class=badge>✓ Correct</span></div><div class=card><div class=label>Viewport</div><div class=value>device-width, scale=1.0</div></div><div class=card><div class=label>JavaScript</div><div class=counter id=count>0</div><div class=row><button class=purple onclick='document.getElementById(\"count\").textContent=+document.getElementById(\"count\").textContent+1'>+1</button><button onclick='document.getElementById(\"count\").textContent=0'>Reset</button></div></div><div class=card><div class=label>Screen Info</div><div class=value id=screenInfo>loading...</div></div><script>document.getElementById('screenInfo').textContent=screen.width+'x'+screen.height+'px @ '+window.devicePixelRatio+'x'</script>"
+}
