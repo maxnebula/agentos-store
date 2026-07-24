@@ -1,0 +1,46 @@
+{
+  "items": [
+    {
+      "id": "quick_notes",
+      "name": "Quick Notes",
+      "icon": "📝",
+      "description": "Simple and fast note-taking micro-app with Markdown support",
+      "longDescription": "A minimal note-taking app that saves your notes locally. Supports Markdown formatting, multiple notebooks, and search.\n\nFeatures:\n- Markdown support\n- Local persistence\n- Search notes\n- Multiple notebooks",
+      "category": "tool",
+      "version": "2.1.0",
+      "author": "maxnebula",
+      "instructions": "<!DOCTYPE html><html><head><meta name='viewport' content='width=device-width, initial-scale=1.0'><style>body{font-family:sans-serif;padding:16px;color:#e0e0e0;background:#1a1a2e}textarea{width:100%;height:200px;background:#16213e;color:#e0e0e0;border:1px solid #333;border-radius:8px;padding:12px;font-size:14px}button{background:#a855f7;color:#fff;border:none;border-radius:8px;padding:10px 20px;margin-top:8px}.note{border:1px solid #333;border-radius:8px;padding:12px;margin-top:8px;background:#16213e}</style></head><body><h1>📝 Quick Notes</h1><textarea id='note' placeholder='Write your note here...'></textarea><br><button onclick='save()'>Save Note</button><div id='notes'></div><script>const notes=JSON.parse(localStorage.getItem('notes')||'[]');function render(){document.getElementById('notes').innerHTML=notes.map((n,i)=>`<div class=note>${n} <button onclick='del(${i})' style='float:right'>✕</button></div>`).join('')}function save(){const v=document.getElementById('note').value;if(v){notes.push(v);localStorage.setItem('notes',JSON.stringify(notes));document.getElementById('note').value='';render()}}function del(i){notes.splice(i,1);localStorage.setItem('notes',JSON.stringify(notes));render()}render()</script></body></html>",
+      "downloads": 340,
+      "rating": 4.2,
+      "size": "0.3 MB"
+    },
+    {
+      "id": "calculator",
+      "name": "Calculator",
+      "icon": "🔢",
+      "description": "Full-featured calculator with scientific mode and history",
+      "longDescription": "A complete calculator micro-app with basic and scientific modes. Stores calculation history.\n\nFeatures:\n- Basic & scientific modes\n- Calculation history\n- Copy results\n- Keyboard support",
+      "category": "tool",
+      "version": "1.0.0",
+      "author": "maxnebula",
+      "instructions": "<!DOCTYPE html><html><head><meta name='viewport' content='width=device-width, initial-scale=1.0'><style>body{font-family:sans-serif;background:#0a0a1a;display:flex;justify-content:center;align-items:center;height:100vh;margin:0}.calc{width:280px;padding:20px;background:#1a1a2e;border-radius:20px;border:1px solid #333}#disp{width:100%;height:60px;background:#16213e;border:none;border-radius:12px;color:#fff;font-size:28px;text-align:right;padding:0 16px;margin-bottom:12px;box-sizing:border-box}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}button{height:52px;border:none;border-radius:12px;font-size:18px;cursor:pointer;color:#fff;background:#2a2a4a}button.op{background:#a855f7}button.eq{background:#7c3aed}button.clr{background:#dc2626}</style></head><body><div class=calc><input id=disp readonly><div class=grid><button onclick='c(\"C\")' style='background:#dc2626'>C</button><button onclick='c(\"±\")'>±</button><button onclick='c(\"%\")'>%</button><button class=op onclick='c(\"/\")'>÷</button><button onclick='c(\"7\")'>7</button><button onclick='c(\"8\")'>8</button><button onclick='c(\"9\")'>9</button><button class=op onclick='c(\"*\")'>×</button><button onclick='c(\"4\")'>4</button><button onclick='c(\"5\")'>5</button><button onclick='c(\"6\")'>6</button><button class=op onclick='c(\"-\")'>−</button><button onclick='c(\"1\")'>1</button><button onclick='c(\"2\")'>2</button><button onclick='c(\"3\")'>3</button><button class=op onclick='c(\"+\")'>+</button><button onclick='c(\"0\")'style='grid-column:span2'>0</button><button onclick='c(\".\")'>.</button><button class=eq onclick='c(\"=\")'>=</button></div></div><script>const d=document.getElementById('disp');function c(v){if(v==='C'){d.value=''}else if(v==='='){try{d.value=eval(d.value)}catch(e){d.value='Error'}}else if(v==='±'){if(d.value.startsWith('-'))d.value=d.value.slice(1);else d.value='-'+d.value}else{d.value+=v}}</script></body></html>",
+      "downloads": 712,
+      "rating": 4.7,
+      "size": "0.2 MB"
+    },
+    {
+      "id": "pomodoro_timer",
+      "name": "Pomodoro Timer",
+      "icon": "⏱️",
+      "description": "Focus timer with work/break intervals and stats",
+      "longDescription": "A beautiful Pomodoro timer to boost productivity. Customizable work and break intervals with session tracking.\n\nFeatures:\n- Customizable timer\n- Break reminders\n- Daily stats tracking\n- Minimalist design",
+      "category": "tool",
+      "version": "1.1.0",
+      "author": "maxnebula",
+      "instructions": "<!DOCTYPE html><html><head><meta name='viewport' content='width=device-width, initial-scale=1.0'><style>body{font-family:sans-serif;background:#0a0a1a;display:flex;justify-content:center;align-items:center;height:100vh;margin:0;flex-direction:column;color:#fff}.timer{font-size:5em;font-weight:bold;color:#a855f7;margin:20px 0}.controls button{background:#2a2a4a;color:#fff;border:none;border-radius:12px;padding:12px 24px;margin:0 6px;font-size:16px;cursor:pointer}.controls button.active{background:#a855f7}.mode{display:flex;gap:8px;margin-bottom:20px}.mode button{background:transparent;color:#888;border:2px solid #333;border-radius:20px;padding:8px 20px;cursor:pointer}.mode button.active{border-color:#a855f7;color:#a855f7}</style></head><body><div class=mode><button id='btnWork' class=active onclick='setMode(\"work\")'>Work</button><button id='btnBreak' onclick='setMode(\"break\")'>Break</button></div><div class=timer id='timer'>25:00</div><div class=controls><button onclick='toggle()' id='toggleBtn'>▶ Start</button><button onclick='resetTimer()'>↺ Reset</button></div><script>let time=25*60,isRunning=false,mode='work',interval;const workTime=25*60,breakTime=5*60;function updateDisplay(){const m=Math.floor(time/60),s=time%60;document.getElementById('timer').textContent=m.toString().padStart(2,'0')+':'+s.toString().padStart(2,'0')}function toggle(){if(isRunning){clearInterval(interval);document.getElementById('toggleBtn').textContent='▶ Start';isRunning=false}else{interval=setInterval(()=>{time--;updateDisplay();if(time<=0){clearInterval(interval);isRunning=false;document.getElementById('toggleBtn').textContent='▶ Start';alert(mode==='work'?'Work session complete! Take a break.':'Break over! Time to work.')}},1000);document.getElementById('toggleBtn').textContent='⏸ Pause';isRunning=true}}function resetTimer(){clearInterval(interval);isRunning=false;time=mode==='work'?workTime:breakTime;updateDisplay();document.getElementById('toggleBtn').textContent='▶ Start'}function setMode(m){mode=m;document.getElementById('btnWork').className=m==='work'?'active':'';document.getElementById('btnBreak').className=m==='break'?'active':'';resetTimer()}updateDisplay()</script></body></html>",
+      "downloads": 334,
+      "rating": 4.5,
+      "size": "0.2 MB"
+    }
+  ]
+}
