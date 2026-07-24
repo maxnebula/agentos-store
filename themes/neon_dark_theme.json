@@ -1,0 +1,14 @@
+{
+  "id": "neon_dark_theme",
+  "name": "Neon Dark Theme",
+  "icon": "🌙",
+  "description": "Premium dark theme with neon purple accents",
+  "longDescription": "A beautiful dark theme with neon purple accents and subtle animations. Perfect for night-time use.\n\n- Deep dark backgrounds\n- Neon purple accent color\n- Smooth transitions\n- Eye-friendly contrast",
+  "category": "theme",
+  "version": "1.2.0",
+  "author": "maxnebula",
+  "instructions": "Theme configuration for Neon Dark. Apply in Settings > Appearance.",
+  "downloads": 892,
+  "rating": 4.8,
+  "size": "0.5 MB"
+}

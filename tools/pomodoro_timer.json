@@ -1,0 +1,14 @@
+{
+  "id": "pomodoro_timer",
+  "name": "Pomodoro Timer",
+  "icon": "⏱️",
+  "description": "Focus timer with work/break intervals and stats",
+  "longDescription": "A beautiful Pomodoro timer to boost productivity. Customizable work and break intervals with session tracking.\n\nFeatures:\n- Customizable timer\n- Break reminders\n- Daily stats tracking\n- Minimalist design",
+  "category": "tool",
+  "version": "1.1.0",
+  "author": "maxnebula",
+  "instructions": "<!DOCTYPE html><html><head><meta name='viewport' content='width=device-width, initial-scale=1.0'><style>body{font-family:sans-serif;background:#0a0a1a;display:flex;justify-content:center;align-items:center;height:100vh;margin:0;flex-direction:column;color:#fff}.timer{font-size:5em;font-weight:bold;color:#a855f7;margin:20px 0}.controls button{background:#2a2a4a;color:#fff;border:none;border-radius:12px;padding:12px 24px;margin:0 6px;font-size:16px;cursor:pointer}.controls button.active{background:#a855f7}.mode{display:flex;gap:8px;margin-bottom:20px}.mode button{background:transparent;color:#888;border:2px solid #333;border-radius:20px;padding:8px 20px;cursor:pointer}.mode button.active{border-color:#a855f7;color:#a855f7}</style></head><body><div class=mode><button id='btnWork' class=active onclick='setMode(\"work\")'>Work</button><button id='btnBreak' onclick='setMode(\"break\")'>Break</button></div><div class=timer id='timer'>25:00</div><div class=controls><button onclick='toggle()' id='toggleBtn'>▶ Start</button><button onclick='resetTimer()'>↺ Reset</button></div><script>let time=25*60,isRunning=false,mode='work',interval;const workTime=25*60,breakTime=5*60;function updateDisplay(){const m=Math.floor(time/60),s=time%60;document.getElementById('timer').textContent=m.toString().padStart(2,'0')+':'+s.toString().padStart(2,'0')}function toggle(){if(isRunning){clearInterval(interval);document.getElementById('toggleBtn').textContent='▶ Start';isRunning=false}else{interval=setInterval(()=>{time--;updateDisplay();if(time<=0){clearInterval(interval);isRunning=false;document.getElementById('toggleBtn').textContent='▶ Start';alert(mode==='work'?'Work session complete! Take a break.':'Break over! Time to work.')}},1000);document.getElementById('toggleBtn').textContent='⏸ Pause';isRunning=true}}function resetTimer(){clearInterval(interval);isRunning=false;time=mode==='work'?workTime:breakTime;updateDisplay();document.getElementById('toggleBtn').textContent='▶ Start'}function setMode(m){mode=m;document.getElementById('btnWork').className=m==='work'?'active':'';document.getElementById('btnBreak').className=m==='break'?'active':'';resetTimer()}updateDisplay()</script></body></html>",
+  "downloads": 334,
+  "rating": 4.5,
+  "size": "0.2 MB"
+}

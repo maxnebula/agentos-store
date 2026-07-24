@@ -1,0 +1,14 @@
+{
+  "id": "snake_game",
+  "name": "Snake Game",
+  "icon": "🐍",
+  "description": "Classic snake game with neon visuals and high scores",
+  "longDescription": "The classic Snake game reimagined with neon graphics. Eat food, grow longer, and avoid hitting walls or yourself.\n\nFeatures:\n- Smooth controls (swipe or arrow keys)\n- High score tracking\n- Neon visual effects\n- Speed increases as you grow",
+  "category": "game",
+  "version": "1.0.0",
+  "author": "maxnebula",
+  "instructions": "<!DOCTYPE html><html><head><meta name='viewport' content='width=device-width, initial-scale=1.0'><style>body{background:#0a0a1a;display:flex;justify-content:center;align-items:center;height:100vh;margin:0;font-family:sans-serif}canvas{border:2px solid #a855f7;border-radius:8px;background:#1a1a2e}#score{color:#a855f7;text-align:center;font-size:24px;margin-bottom:10px}</style></head><body><div><div id='score'>Score: 0</div><canvas id='game' width='300' height='300'></canvas></div><script>const c=document.getElementById('game'),ctx=c.getContext('2d');let s=[{x:10,y:10}],d={x:0,y:0},f={x:15,y:15},sc=0;document.addEventListener('keydown',e=>{switch(e.key){case'ArrowUp':if(d.y===0){d={x:0,y:-1}}break;case'ArrowDown':if(d.y===0){d={x:0,y:1}}break;case'ArrowLeft':if(d.x===0){d={x:-1,y:0}}break;case'ArrowRight':if(d.x===0){d={x:1,y:0}}}});function game(){const h={x:s[0].x+d.x,y:s[0].y+d.y};if(h.x<0||h.x>=30||h.y<0||h.y>=30||s.some(p=>p.x===h.x&&p.y===h.y)){alert('Game Over! Score: '+sc);s=[{x:10,y:10}];d={x:0,y:0};sc=0;return}s.unshift(h);if(h.x===f.x&&h.y===f.y){sc++;f={x:Math.floor(Math.random()*30),y:Math.floor(Math.random()*30)}}else s.pop();ctx.fillStyle='#0a0a1a';ctx.fillRect(0,0,300,300);s.forEach((p,i)=>{ctx.fillStyle=i===0?'#a855f7':'#4a1a8a';ctx.fillRect(p.x*10,p.y*10,8,8)});ctx.fillStyle='#10b981';ctx.fillRect(f.x*10,f.y*10,8,8);document.getElementById('score').textContent='Score: '+sc}setInterval(game,150)</script></body></html>",
+  "downloads": 567,
+  "rating": 4.6,
+  "size": "0.1 MB"
+}

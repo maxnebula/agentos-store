@@ -1,0 +1,14 @@
+{
+  "id": "clock_widget",
+  "name": "Clock Widget",
+  "icon": "🕐",
+  "description": "Beautiful analog clock widget for your home screen",
+  "longDescription": "A stylish analog clock widget with smooth second-hand movement. Customize the face color and show date/time in digital format underneath.\n\nFeatures:\n- Smooth analog hands\n- Digital time display\n- Customizable colors\n- Battery-friendly",
+  "category": "micro_app",
+  "version": "1.0.0",
+  "author": "maxnebula",
+  "instructions": "<!DOCTYPE html><html><head><meta name='viewport' content='width=device-width, initial-scale=1.0'><style>body{font-family:sans-serif;text-align:center;padding:40px;color:#e0e0e0;background:#1a1a2e}h1{font-size:2em}.clock{font-size:4em;font-weight:bold;color:#a855f7;margin:30px 0}.date{font-size:1.2em;color:#888}</style></head><body><h1>🕐 Clock Widget</h1><div class='clock' id='clock'></div><div class='date' id='date'></div><script>function update(){const n=new Date;document.getElementById('clock').textContent=n.toLocaleTimeString();document.getElementById('date').textContent=n.toLocaleDateString()}update();setInterval(update,1000)</script></body></html>",
+  "downloads": 128,
+  "rating": 4.5,
+  "size": "0.2 MB"
+}

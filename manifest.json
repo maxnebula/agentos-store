@@ -7,31 +7,47 @@
       "id": "micro_app",
       "name": "Micro-Apps",
       "icon": "📱",
-      "url": "categories/micro_apps.json"
+      "items": [
+        "micro_apps/clock_widget.json",
+        "micro_apps/weather_widget.json"
+      ]
     },
     {
       "id": "tool",
       "name": "Tools",
       "icon": "🔧",
-      "url": "categories/tools.json"
+      "items": [
+        "tools/quick_notes.json",
+        "tools/calculator.json",
+        "tools/pomodoro_timer.json"
+      ]
     },
     {
       "id": "game",
       "name": "Games",
       "icon": "🎮",
-      "url": "categories/games.json"
+      "items": [
+        "games/snake_game.json",
+        "games/maze_runner.json",
+        "games/mini_piano.json"
+      ]
     },
     {
       "id": "skill",
       "name": "Skills",
       "icon": "🧠",
-      "url": "categories/skills.json"
+      "items": [
+        "skills/summarize_skill.json",
+        "skills/translate_skill.json"
+      ]
     },
     {
       "id": "theme",
       "name": "Themes",
       "icon": "🎨",
-      "url": "categories/themes.json"
+      "items": [
+        "themes/neon_dark_theme.json"
+      ]
     }
   ]
 }

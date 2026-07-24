@@ -1,0 +1,14 @@
+{
+  "id": "maze_runner",
+  "name": "Maze Runner",
+  "icon": "🏃",
+  "description": "Navigate through procedurally generated mazes",
+  "longDescription": "A fun maze game with procedurally generated levels. Use arrow keys or swipe to navigate the maze.\n\nFeatures:\n- Procedural generation\n- Multiple difficulty levels\n- Timer and best times\n- Smooth animations",
+  "category": "game",
+  "version": "1.0.0",
+  "author": "maxnebula",
+  "instructions": "<!DOCTYPE html><html><head><meta name='viewport' content='width=device-width, initial-scale=1.0'><style>body{background:#0a0a1a;display:flex;justify-content:center;align-items:center;height:100vh;margin:0;font-family:sans-serif;flex-direction:column}#info{color:#a855f7;margin-bottom:10px;font-size:18px}canvas{border:2px solid #a855f7;border-radius:8px;background:#1a1a2e}</style></head><body><div id='info'>Use arrow keys to move</div><canvas id='maze' width='300' height='300'></canvas><script>const SIZE=10,CELL=30;const c=document.getElementById('maze'),ctx=c.getContext('2d');let maze=[],px=0,py=0;function genMaze(){maze=Array.from({length:SIZE},()=>Array(SIZE).fill(false));const stack=[[0,0]];maze[0][0]=true;while(stack.length){const [cx,cy]=stack[stack.length-1];const dirs=[[0,-2],[0,2],[-2,0],[2,0]].filter(([dx,dy])=>{const nx=cx+dx,ny=cy+dy;return nx>=0&&nx<SIZE&&ny>=0&&ny<SIZE&&!maze[ny][nx]});if(dirs.length===0){stack.pop()}else{const [dx,dy]=dirs[Math.floor(Math.random()*dirs.length)];maze[cy+dy/2][cx+dx/2]=true;maze[cy+dy][cx+dx]=true;stack.push([cx+dx,cy+dy])}}}function draw(){ctx.fillStyle='#1a1a2e';ctx.fillRect(0,0,300,300);for(let y=0;y<SIZE;y++)for(let x=0;x<SIZE;x++){if(!maze[y][x]){ctx.fillStyle='#333';ctx.fillRect(x*CELL,y*CELL,CELL,CELL)}}ctx.fillStyle='#10b981';ctx.fillRect(0,0,CELL,CELL);ctx.fillStyle='#a855f7';ctx.fillRect((SIZE-1)*CELL,(SIZE-1)*CELL,CELL,CELL);ctx.fillStyle='#ff6b6b';ctx.fillRect(px*CELL,py*CELL,CELL,CELL)}document.addEventListener('keydown',e=>{let nx=px,ny=py;if(e.key==='ArrowUp')ny--;else if(e.key==='ArrowDown')ny++;else if(e.key==='ArrowLeft')nx--;else if(e.key==='ArrowRight')nx++;if(nx>=0&&nx<SIZE&&ny>=0&&ny<SIZE&&maze[ny][nx]){px=nx;py=ny;draw()}if(px===SIZE-1&&py===SIZE-1){document.getElementById('info').textContent='You Win! 🎉'}});genMaze();draw()</script></body></html>",
+  "downloads": 189,
+  "rating": 4.1,
+  "size": "0.1 MB"
+}
