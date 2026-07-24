@@ -2,52 +2,5 @@
   "storeName": "AgentOS Store",
   "subtitle": "Discover micro-apps, skills, tools, games & themes for AgentOS",
   "version": 1,
-  "categories": [
-    {
-      "id": "micro_app",
-      "name": "Micro-Apps",
-      "icon": "📱",
-      "items": [
-        "micro_apps/clock_widget.json",
-        "micro_apps/weather_widget.json"
-      ]
-    },
-    {
-      "id": "tool",
-      "name": "Tools",
-      "icon": "🔧",
-      "items": [
-        "tools/quick_notes.json",
-        "tools/calculator.json",
-        "tools/pomodoro_timer.json"
-      ]
-    },
-    {
-      "id": "game",
-      "name": "Games",
-      "icon": "🎮",
-      "items": [
-        "games/snake_game.json",
-        "games/maze_runner.json",
-        "games/mini_piano.json"
-      ]
-    },
-    {
-      "id": "skill",
-      "name": "Skills",
-      "icon": "🧠",
-      "items": [
-        "skills/summarize_skill.json",
-        "skills/translate_skill.json"
-      ]
-    },
-    {
-      "id": "theme",
-      "name": "Themes",
-      "icon": "🎨",
-      "items": [
-        "themes/neon_dark_theme.json"
-      ]
-    }
-  ]
+  "categories": []
 }
