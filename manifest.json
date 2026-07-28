@@ -4,13 +4,37 @@
   "version": 1,
   "categories": [
     {
-      "id": "tool",
-      "name": "Tools",
-      "icon": "🔧",
+      "id": "micro_app",
+      "name": "Micro-Apps",
+      "icon": "\uD83D\uDCF1",
       "items": [
         "tools/webview_demo.json",
         "tools/water_glass.json"
       ]
+    },
+    {
+      "id": "skill",
+      "name": "Skills",
+      "icon": "\uD83E\uDDE0",
+      "items": []
+    },
+    {
+      "id": "tool",
+      "name": "Tools",
+      "icon": "\uD83D\uDD27",
+      "items": []
+    },
+    {
+      "id": "game",
+      "name": "Games",
+      "icon": "\uD83C\uDFAE",
+      "items": []
+    },
+    {
+      "id": "theme",
+      "name": "Themes",
+      "icon": "\uD83C\uDFA8",
+      "items": []
     }
   ]
 }
