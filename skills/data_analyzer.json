@@ -1,0 +1,14 @@
+{
+  "id": "data_analyzer",
+  "name": "Data Analyzer",
+  "icon": "\uD83D\uDCCA",
+  "description": "Analyze CSV/JSON data and generate reports with statistics and visualizations",
+  "longDescription": "A skill that helps analyze datasets. Parses CSV and JSON data, computes statistics (mean, median, std dev), and generates formatted reports.",
+  "category": "skill",
+  "version": "1.0.0",
+  "author": "maxnebula",
+  "prompt": "When analyzing data: 1) Accept CSV or JSON input from the user or a file. 2) Parse the data and identify columns/fields. 3) Compute basic statistics: count, mean, median, min, max, standard deviation for numeric columns. 4) For categorical columns, compute frequency counts. 5) Generate a clear text report with: a summary section, per-column statistics, and any notable findings (outliers, missing values, patterns). 6) If the data is visualizable, suggest chart types. 7) Use 'file' capability to read data files when a file path is provided.",
+  "downloads": 0,
+  "rating": 0.0,
+  "size": "0.1 MB"
+}

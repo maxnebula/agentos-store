@@ -16,7 +16,9 @@
       "id": "skill",
       "name": "Skills",
       "icon": "\uD83E\uDDE0",
-      "items": []
+      "items": [
+        "skills/data_analyzer.json"
+      ]
     },
     {
       "id": "tool",
