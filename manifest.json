@@ -34,7 +34,8 @@
       "icon": "\uD83C\uDFAE",
       "items": [
         "games/d2048.json",
-        "games/voxel.json"
+        "games/voxel.json",
+        "games/sandbox.json"
       ]
     },
     {
