@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgentOS Store</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0A0A0F; color: #e0e0e0; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 40px 20px; text-align: center; }
+h1 { font-size: 48px; font-weight: 900; color: #8B5CF6; letter-spacing: -1px; margin-bottom: 8px; }
+p { color: #8B8FA3; font-size: 16px; margin-bottom: 32px; }
+.cards { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
+.card { background: #151528; border: 1px solid #2a2a3d; border-radius: 16px; padding: 24px; width: 200px; text-decoration: none; color: inherit; transition: border-color 0.2s, transform 0.2s; }
+.card:hover { border-color: #8B5CF6; transform: translateY(-2px); }
+.card .icon { font-size: 40px; margin-bottom: 8px; }
+.card .name { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+.card .desc { font-size: 12px; color: #8B8FA3; }
+.footer { margin-top: 40px; font-size: 12px; color: #4a4a5a; }
+</style>
+</head>
+<body>
+<h1>AgentOS Store</h1>
+<p>Micro-apps, games, tools, and themes for AgentOS</p>
+<div class="cards">
+  <a class="card" href="games/voxel/">
+    <div class="icon">🗺️</div>
+    <div class="name">Voxel World</div>
+    <div class="desc">3D block-building world explorer</div>
+  </a>
+  <a class="card" href="games/d2048.json">
+    <div class="icon">🎮</div>
+    <div class="name">d2048</div>
+    <div class="desc">Classic 2048 puzzle game</div>
+  </a>
+</div>
+<div class="footer">Browse and install via the AgentOS app</div>
+</body>
+</html>
