@@ -33,7 +33,8 @@
       "name": "Games",
       "icon": "\uD83C\uDFAE",
       "items": [
-        "games/d2048.json"
+        "games/d2048.json",
+        "games/voxel.json"
       ]
     },
     {

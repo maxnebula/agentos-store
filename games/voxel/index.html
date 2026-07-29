@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Voxel World</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="blocker">
+  <div id="instructions">
+    <h1>Voxel World</h1>
+    <p>Click to explore</p>
+    <div class="keys">
+      <span>W A S D</span> Move
+      <span>Space</span> Up <span>Shift</span> Down
+      <span>Left Click</span> Remove block
+      <span>Right Click</span> Place block
+      <span>1-7</span> Select block
+    </div>
+  </div>
+</div>
+<div id="crosshair">+</div>
+<div id="hotbar"></div>
+<div id="block-label"></div>
+<div id="info">
+  <span id="fps">60</span> FPS &middot;
+  <span id="blocks">0</span> blocks &middot;
+  <span id="pos">0, 0, 0</span>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
