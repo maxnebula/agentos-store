@@ -32,7 +32,9 @@
       "id": "game",
       "name": "Games",
       "icon": "\uD83C\uDFAE",
-      "items": []
+      "items": [
+        "games/d2048.json"
+      ]
     },
     {
       "id": "theme",
