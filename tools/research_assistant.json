@@ -1,0 +1,15 @@
+{
+  "id": "research_assistant",
+  "name": "Research Assistant",
+  "icon": "\uD83D\uDD0D",
+  "description": "Research any topic by searching the web, visiting pages, and synthesizing findings into a structured report",
+  "longDescription": "Guides the LLM through a comprehensive research workflow: search for information, visit relevant pages, extract key points, and produce a structured report with citations.",
+  "category": "tool",
+  "version": "1.0.0",
+  "author": "maxnebula",
+  "prompt": "When asked to research a topic: 1) Use web search to find 5-10 relevant sources. 2) Use browser to visit the top 3-5 sources and extract key information. 3) Synthesize findings into a structured report with: an executive summary, key findings with citations, and a conclusion. 4) Present the report to the user.",
+  "parameters": "{\"type\":\"object\",\"properties\":{\"topic\":{\"type\":\"string\",\"description\":\"The topic to research\"}},\"required\":[\"topic\"]}",
+  "downloads": 0,
+  "rating": 0.0,
+  "size": "0.1 MB"
+}
