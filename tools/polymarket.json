@@ -8,7 +8,7 @@
   "version": "1.0.0",
   "author": "maxnebula",
   "prompt": "",
-  "parameters": "{\"type\":\"object\",\"properties\":{\"action\":{\"type\":\"string\",\"description\":\"Action: events (active events), markets (markets for a specific event), search (search by keyword)\",\"enum\":[\"events\",\"markets\",\"search\"]},\"query\":{\"type\":\"string\",\"description\":\"Search keyword (for action=search)\"},\"event_id\":{\"type\":\"string\",\"description\":\"Event ID (for action=markets)\"},\"limit\":{\"type\":\"integer\",\"description\":\"Max results (default 10)\"}},\"required\":[\"action\"]}",
+  "parameters": "{\"type\":\"object\",\"properties\":{\"action\":{\"type\":\"string\",\"description\":\"Action to perform: 'events' returns top active prediction markets sorted by volume (use this for 'top', 'trending', 'popular' queries), 'markets' returns markets for a specific event_id, 'search' searches events by keyword. Aliases: top/top_markets/trending/popular also work and map to 'events'.\",\"enum\":[\"events\",\"markets\",\"search\"]},\"query\":{\"type\":\"string\",\"description\":\"Search keyword (required for action=search)\"},\"event_id\":{\"type\":\"string\",\"description\":\"Event ID (required for action=markets)\"},\"limit\":{\"type\":\"integer\",\"description\":\"Max results to return (default 10, max 50)\"}},\"required\":[\"action\"]}",
   "codeBacked": true,
   "downloads": 0,
   "rating": 0.0,
