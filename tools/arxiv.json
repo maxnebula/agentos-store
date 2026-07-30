@@ -8,8 +8,10 @@
   "version": "1.0.0",
   "author": "maxnebula",
   "prompt": "",
-  "parameters": "{\"type\":\"object\",\"properties\":{\"query\":{\"type\":\"string\",\"description\":\"Search query\"},\"max_results\":{\"type\":\"integer\",\"description\":\"Max results (default 5, max 50)\"},\"category\":{\"type\":\"string\",\"description\":\"Optional category filter (e.g. cs.AI, cs.LG, math.ST, physics)\"}},\"required\":[\"query\"]}",
-  "codeBacked": true,
+  "parameters": "{\"type\":\"object\",\"properties\":{\"query\":{\"type\":\"string\",\"description\":\"Search query\"},\"max_results\":{\"type\":\"integer\",\"description\":\"Max results (default 5, max 50)\"}},\"required\":[\"query\"]}",
+  "url": "https://export.arxiv.org/api/query?search_query=all:{query}&max_results={max_results}&sortBy=relevance&start=0",
+  "method": "GET",
+  "responseType": "text",
   "downloads": 0,
   "rating": 0.0,
   "size": "0.1 MB"
