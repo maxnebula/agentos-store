@@ -8,24 +8,51 @@
   "version": "1.0.0",
   "author": "maxnebula",
   "prompt": "",
-  "parameters": "{\"type\":\"object\",\"properties\":{\"action\":{\"type\":\"string\",\"description\":\"Action to perform: 'events' returns top active prediction markets sorted by volume (use this for 'top', 'trending', 'popular' queries), 'markets' returns markets for a specific event_id, 'search' searches events by keyword. Aliases: top/top_markets/trending/popular also work and map to 'events'.\",\"enum\":[\"events\",\"markets\",\"search\"]},\"query\":{\"type\":\"string\",\"description\":\"Search keyword (required for action=search)\"},\"event_id\":{\"type\":\"string\",\"description\":\"Event ID (required for action=markets)\"},\"limit\":{\"type\":\"integer\",\"description\":\"Max results to return (default 10, max 50)\"}},\"required\":[\"action\"]}",
-  "actionUrlMap": {
-    "events": "https://gamma-api.polymarket.com/events?closed=false&limit={limit}&ordering=-volume",
-    "top": "https://gamma-api.polymarket.com/events?closed=false&limit={limit}&ordering=-volume",
-    "top_markets": "https://gamma-api.polymarket.com/events?closed=false&limit={limit}&ordering=-volume",
-    "trending": "https://gamma-api.polymarket.com/events?closed=false&limit={limit}&ordering=-volume",
-    "popular": "https://gamma-api.polymarket.com/events?closed=false&limit={limit}&ordering=-volume",
-    "markets": "https://gamma-api.polymarket.com/events/{event_id}",
-    "search": "https://gamma-api.polymarket.com/events?closed=false&limit={limit}&title={query}"
+  "parameters": "{\"type\":\"object\",\"properties\":{\"action\":{\"type\":\"string\",\"description\":\"Action to perform: 'events' returns top active prediction markets sorted by volume, 'markets' returns markets for a specific event_id, 'search' searches events by keyword.\",\"enum\":[\"events\",\"markets\",\"search\"]},\"query\":{\"type\":\"string\",\"description\":\"Search keyword (required for action=search)\"},\"event_id\":{\"type\":\"string\",\"description\":\"Event ID (required for action=markets)\"},\"limit\":{\"type\":\"integer\",\"description\":\"Max results to return (default 10, max 50)\"}},\"required\":[\"action\"]}",
+  "endpoints": {
+    "events": {
+      "method": "GET",
+      "url": "https://gamma-api.polymarket.com/events",
+      "query": {
+        "closed": { "value": "false" },
+        "limit": { "from": "limit", "default": "10" },
+        "ordering": { "value": "-volume" }
+      },
+      "response": {
+        "fields": ["id", "ticker", "slug", "title", "volume", "closeTime", "markets.0.outcome", "markets.0.price", "markets.0.volume"]
+      }
+    },
+    "markets": {
+      "method": "GET",
+      "url": "https://gamma-api.polymarket.com/events/{event_id}",
+      "path": {
+        "event_id": { "from": "event_id", "required": true }
+      }
+    },
+    "search": {
+      "method": "GET",
+      "url": "https://gamma-api.polymarket.com/events",
+      "query": {
+        "closed": { "value": "false" },
+        "title": { "from": "query", "required": true },
+        "limit": { "from": "limit", "default": "10" }
+      }
+    }
   },
-  "method": "GET",
+  "actionMap": {
+    "events": "events",
+    "top": "events",
+    "top_markets": "events",
+    "trending": "events",
+    "popular": "events",
+    "markets": "markets",
+    "search": "search"
+  },
   "headers": {
     "User-Agent": "AgentOS/1.0"
   },
-  "paramDefaults": {
-    "limit": "10"
-  },
   "responseType": "json",
+  "maxResponseChars": 3000,
   "downloads": 0,
   "rating": 0.0,
   "size": "0.1 MB"

@@ -9,12 +9,27 @@
   "author": "maxnebula",
   "prompt": "",
   "parameters": "{\"type\":\"object\",\"properties\":{\"query\":{\"type\":\"string\",\"description\":\"Search query\"},\"max_results\":{\"type\":\"integer\",\"description\":\"Max results (default 5, max 50)\"}},\"required\":[\"query\"]}",
-  "url": "https://export.arxiv.org/api/query?search_query=all:{query}&max_results={max_results}&sortBy=relevance&start=0",
-  "method": "GET",
-  "paramDefaults": {
-    "max_results": "5"
+  "endpoints": {
+    "search": {
+      "method": "GET",
+      "url": "https://export.arxiv.org/api/query",
+      "query": {
+        "search_query": { "from": "query", "required": true },
+        "max_results": { "from": "max_results", "default": "5" },
+        "sortBy": { "value": "relevance" },
+        "start": { "value": "0" }
+      },
+      "response": {
+        "maxChars": 4000
+      }
+    }
+  },
+  "actionMap": {
+    "search": "search",
+    "query": "search"
   },
   "responseType": "text",
+  "maxResponseChars": 4000,
   "downloads": 0,
   "rating": 0.0,
   "size": "0.1 MB"
