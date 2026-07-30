@@ -26,7 +26,8 @@
       "icon": "\uD83D\uDD27",
       "items": [
         "tools/research_assistant.json",
-        "tools/polymarket.json"
+        "tools/polymarket.json",
+        "tools/arxiv.json"
       ]
     },
     {
