@@ -1,0 +1,16 @@
+{
+  "id": "polymarket",
+  "name": "Polymarket",
+  "icon": "\uD83D\uDCCA",
+  "description": "Fetch Polymarket prediction market data: active events, markets, and their odds.",
+  "longDescription": "Query the Polymarket prediction markets API for active events, market details, and search by keyword. Returns structured data about prediction markets including volumes, outcomes, and prices.",
+  "category": "tool",
+  "version": "1.0.0",
+  "author": "maxnebula",
+  "prompt": "",
+  "parameters": "{\"type\":\"object\",\"properties\":{\"action\":{\"type\":\"string\",\"description\":\"Action: events (active events), markets (markets for a specific event), search (search by keyword)\",\"enum\":[\"events\",\"markets\",\"search\"]},\"query\":{\"type\":\"string\",\"description\":\"Search keyword (for action=search)\"},\"event_id\":{\"type\":\"string\",\"description\":\"Event ID (for action=markets)\"},\"limit\":{\"type\":\"integer\",\"description\":\"Max results (default 10)\"}},\"required\":[\"action\"]}",
+  "codeBacked": true,
+  "downloads": 0,
+  "rating": 0.0,
+  "size": "0.1 MB"
+}
