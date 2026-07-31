@@ -8,8 +8,8 @@
       "name": "Micro-Apps",
       "icon": "\uD83D\uDCF1",
       "items": [
-        "tools/webview_demo.json",
-        "tools/water_glass.json"
+        "micro_apps/webview_demo.json",
+        "micro_apps/water_glass.json"
       ]
     },
     {
