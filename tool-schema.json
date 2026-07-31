@@ -4,13 +4,16 @@
   "title": "AgentOS Store Tool Definition",
   "description": "Schema for tool definitions in the AgentOS store (tools/*.json). Validated on install and at startup by the app.",
   "type": "object",
-  "required": ["id", "name", "description"],
+  "required": ["id", "name", "description", "endpoints"],
   "allOf": [
     {
       "anyOf": [
-        { "required": ["endpoints"], "description": "HTTP tool: defines a declarative endpoint surface" },
-        { "required": ["prompt"], "description": "Prompt-only tool: instructions given to the LLM" }
-      ]
+        { "required": ["endpoints"], "description": "Declarative HTTP surface (the normal case)" },
+        { "required": ["codeBacked"], "description": "Native tool executor" },
+        { "required": ["url"], "description": "Legacy single-URL tool" },
+        { "required": ["actionUrlMap"], "description": "Legacy action-to-URL map" }
+      ],
+      "description": "A tool must have an execution surface. Prompt-only items are skills — set category to 'skill' and move to skills/"
     }
   ],
   "additionalProperties": true,

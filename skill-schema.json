@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://maxnebula.github.io/agentos-store/skill-schema.json",
+  "title": "AgentOS Store Skill Definition",
+  "description": "Schema for skill definitions in the AgentOS store (skills/*.json). A skill is a prompt-only procedure that orchestrates other capabilities — it has no HTTP surface.",
+  "type": "object",
+  "required": ["id", "name", "description", "category", "prompt"],
+  "not": {
+    "anyOf": [
+      { "required": ["endpoints"], "description": "HTTP surface belongs on tools, not skills" },
+      { "required": ["actionMap"], "description": "HTTP surface belongs on tools, not skills" },
+      { "required": ["url"], "description": "HTTP surface belongs on tools, not skills" },
+      { "required": ["headers"], "description": "HTTP surface belongs on tools, not skills" },
+      { "required": ["codeBacked"], "description": "Native execution belongs on tools, not skills" }
+    ]
+  },
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$",
+      "description": "Unique skill id, lowercase alphanumeric with _ and -"
+    },
+    "name": { "type": "string", "minLength": 1 },
+    "icon": { "type": "string" },
+    "description": { "type": "string", "minLength": 1 },
+    "longDescription": { "type": "string" },
+    "category": { "const": "skill" },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "author": { "type": "string" },
+    "prompt": {
+      "type": "string",
+      "minLength": 10,
+      "description": "Step-by-step procedure the LLM follows, orchestrating other capabilities (e.g. web search, file). No data is fetched by the skill itself."
+    }
+  },
+  "additionalProperties": true
+}

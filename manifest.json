@@ -17,7 +17,8 @@
       "name": "Skills",
       "icon": "\uD83E\uDDE0",
       "items": [
-        "skills/data_analyzer.json"
+        "skills/data_analyzer.json",
+        "skills/research_assistant.json"
       ]
     },
     {
@@ -25,7 +26,6 @@
       "name": "Tools",
       "icon": "\uD83D\uDD27",
       "items": [
-        "tools/research_assistant.json",
         "tools/polymarket.json",
         "tools/arxiv.json"
       ]
