@@ -1,0 +1,19 @@
+{
+  "id": "d2048",
+  "name": "2048",
+  "icon": "\ud83d\udd22",
+  "description": "Classic 2048 puzzle with smooth animations, touch swipe, and persistent high scores",
+  "longDescription": "Swipe or drag to merge tiles and chase your best score. Features animated tile slides, merge effects, sound effects, and persistent high scores saved through the AgentOS bridge.",
+  "category": "game",
+  "version": "2.1.0",
+  "author": "maxnebula",
+  "engine": "web",
+  "minEngineVersion": "1.0.0",
+  "entry": "index.html",
+  "assets": {
+    "url": "https://raw.githubusercontent.com/maxnebula/agentos-store/main/dist/games/d2048/bundle.zip",
+    "sha256": "39886dd01f341408d4c618eed976b3d7cb3ad41955de4eeb5ec3ecb4ac4b9d9a",
+    "size": 5157
+  },
+  "size": "5 KB"
+}
