@@ -1,0 +1,187 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://maxnebula.github.io/agentos-store/game-schema.json",
+  "title": "AgentOS Store Game Definition",
+  "description": "Schema for game definitions in the AgentOS store (games/*/game.json). Games are declarative content packages driven by an in-app engine; they carry no execution surface of their own.",
+  "type": "object",
+  "required": ["id", "name", "description", "category", "version", "engine", "minEngineVersion", "entry", "assets"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]{1,32}$",
+      "description": "Unique game id, lowercase alphanumeric with _ and -"
+    },
+    "name": { "type": "string", "minLength": 1 },
+    "icon": { "type": "string" },
+    "description": { "type": "string", "minLength": 1 },
+    "longDescription": { "type": "string" },
+    "category": { "const": "game" },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "Semver of the game package" },
+    "author": { "type": "string" },
+    "engine": {
+      "enum": ["web", "voxel"],
+      "description": "Runtime that plays this game. Unknown engines are rejected at install by the app's EngineRegistry."
+    },
+    "minEngineVersion": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Lowest app ENGINE_VERSION this game runs on. Install is rejected when minEngineVersion > app ENGINE_VERSION."
+    },
+    "entry": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Relative path of the entry point inside the bundle (e.g. index.html). Must exist in the bundle zip (checked by build_games.py and at install)."
+    },
+    "assets": {
+      "type": "object",
+      "description": "Bundle metadata. Written by build_games.py (authoring: {}); sha256/size/url must match the built bundle — mismatches fail validation.",
+      "properties": {
+        "url": { "type": "string", "pattern": "^https://", "description": "Bundle zip URL (raw.githubusercontent.com/agentos-store/dist/games/<id>/bundle.zip)" },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$", "description": "Hex sha256 of the bundle zip; written by build_games.py" },
+        "size": { "type": "integer", "minimum": 0, "description": "Bundle zip size in bytes; written by build_games.py" }
+      },
+      "additionalProperties": false
+    },
+    "screenshots": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^https://" }
+    },
+    "size": {
+      "type": "string",
+      "description": "Human-readable size label; written by build_games.py"
+    },
+    "world": {
+      "$ref": "#/definitions/world",
+      "description": "Engine content definition. Required for engine=voxel, forbidden for engine=web."
+    }
+  },
+  "definitions": {
+    "world": {
+      "type": "object",
+      "required": ["size", "blocks", "worldgen", "player", "hotbar"],
+      "additionalProperties": false,
+      "properties": {
+        "size": {
+          "type": "object",
+          "required": ["cx", "cy", "cz"],
+          "additionalProperties": false,
+          "properties": {
+            "cx": { "type": "integer", "minimum": 8, "maximum": 32 },
+            "cy": { "type": "integer", "minimum": 16, "maximum": 512, "description": "World height" },
+            "cz": { "type": "integer", "minimum": 8, "maximum": 32 }
+          }
+        },
+        "seed": { "type": "integer", "minimum": 0, "description": "World seed; 0 = random at world creation" },
+        "blocks": {
+          "type": "array",
+          "minItems": 1,
+          "description": "Block registry; block ids must be unique. Cross-references (hotbar/biomes/trees/ore) are checked by build_games.py and at install.",
+          "items": {
+            "type": "object",
+            "required": ["id", "name", "tile", "flags"],
+            "additionalProperties": true,
+            "properties": {
+              "id": { "type": "string", "pattern": "^[a-z0-9_]{1,32}$" },
+              "name": { "type": "string", "minLength": 1 },
+              "tile": { "type": "integer", "minimum": 0, "description": "Index into the baked texture atlas (textures/tile_<N>.png)" },
+              "flags": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": { "enum": ["solid", "transparent", "liquid", "emissive"] }
+              },
+              "tint": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+              "opacity": { "type": "number", "minimum": 0.0, "maximum": 1.0 }
+            }
+          }
+        },
+        "worldgen": {
+          "type": "object",
+          "required": ["seaLevel", "heightmap", "biomes"],
+          "additionalProperties": true,
+          "properties": {
+            "seaLevel": { "type": "integer", "description": "Must be within world height (checked by build_games.py)" },
+            "heightmap": {
+              "type": "object",
+              "required": ["scale", "octaves", "persistence", "lacunarity"],
+              "additionalProperties": false,
+              "properties": {
+                "scale": { "type": "number", "exclusiveMinimum": 0 },
+                "octaves": { "type": "integer", "minimum": 1, "maximum": 8 },
+                "persistence": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+                "lacunarity": { "type": "number", "exclusiveMinimum": 1.0 }
+              }
+            },
+            "caves": {
+              "type": "object",
+              "required": ["threshold", "scale"],
+              "additionalProperties": false,
+              "properties": {
+                "threshold": { "type": "number" },
+                "scale": { "type": "number", "exclusiveMinimum": 0 }
+              }
+            },
+            "biomes": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "required": ["min", "max", "surface", "sub"],
+                "additionalProperties": true,
+                "properties": {
+                  "min": { "type": "number" },
+                  "max": { "type": "number" },
+                  "surface": { "type": "string", "pattern": "^[a-z0-9_]{1,32}$" },
+                  "sub": { "type": "string", "pattern": "^[a-z0-9_]{1,32}$" }
+                }
+              }
+            },
+            "trees": {
+              "type": "object",
+              "required": ["block", "leafBlock", "density", "minHeight", "maxHeight"],
+              "additionalProperties": false,
+              "properties": {
+                "block": { "type": "string", "pattern": "^[a-z0-9_]{1,32}$" },
+                "leafBlock": { "type": "string", "pattern": "^[a-z0-9_]{1,32}$" },
+                "density": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
+                "minHeight": { "type": "integer", "minimum": 1 },
+                "maxHeight": { "type": "integer", "minimum": 1 }
+              }
+            },
+            "ore": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["block", "count", "minY", "maxY"],
+                "additionalProperties": true,
+                "properties": {
+                  "block": { "type": "string", "pattern": "^[a-z0-9_]{1,32}$" },
+                  "count": { "type": "integer", "minimum": 1 },
+                  "minY": { "type": "integer" },
+                  "maxY": { "type": "integer" }
+                }
+              }
+            }
+          }
+        },
+        "player": {
+          "type": "object",
+          "required": ["reach"],
+          "additionalProperties": true,
+          "properties": {
+            "spawn": { "enum": ["auto"] },
+            "reach": { "type": "number", "minimum": 1.0, "maximum": 12.0 },
+            "fly": { "type": "boolean" },
+            "gravity": { "type": "number", "exclusiveMinimum": 0 },
+            "jumpSpeed": { "type": "number", "exclusiveMinimum": 0 }
+          }
+        },
+        "hotbar": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "pattern": "^[a-z0-9_]{1,32}$" }
+        }
+      }
+    }
+  }
+}
