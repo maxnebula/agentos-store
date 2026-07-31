@@ -117,7 +117,8 @@
           "description": "Dot-paths of response fields to include in the tool output, e.g. \"markets.0.price\"",
           "items": { "type": "string", "minLength": 1 }
         },
-        "maxChars": { "type": "integer", "minimum": 100, "description": "Truncation limit for this endpoint's output" }
+        "maxChars": { "type": "integer", "minimum": 100, "description": "Truncation limit for this endpoint's output" },
+        "recordSep": { "type": "string", "minLength": 1, "description": "For text responses only: delimiter that starts each record (e.g. \"<entry\" for Atom feeds). Truncation then happens at whole-record boundaries and appends \"[Truncated: showing N of M records]\" so the model knows results were cut." }
       },
       "additionalProperties": true
     }

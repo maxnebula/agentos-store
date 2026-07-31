@@ -20,7 +20,8 @@
         "start": { "value": "0" }
       },
       "response": {
-        "maxChars": 4000
+        "maxChars": 4000,
+        "recordSep": "<entry"
       }
     }
   },
