@@ -12,8 +12,8 @@
   "entry": "index.html",
   "assets": {
     "url": "https://raw.githubusercontent.com/maxnebula/agentos-store/main/dist/games/d2048/bundle.zip",
-    "sha256": "39886dd01f341408d4c618eed976b3d7cb3ad41955de4eeb5ec3ecb4ac4b9d9a",
-    "size": 5157
+    "sha256": "ad0dcfa605bb8628e0ffe34634543183bc9d560c687520e84605bfc68190c38e",
+    "size": 5168
   },
   "size": "5 KB"
 }

@@ -65,10 +65,19 @@ def build_bundle(game_dir: Path, schema: dict) -> list[str]:
     out_zip = DIST_DIR / "games" / game_dir.name / "bundle.zip"
     out_zip.parent.mkdir(parents=True, exist_ok=True)
 
+    # Deterministic zips: fixed file order and timestamps so rebuilds are
+    # byte-identical and committed artifacts never produce diff noise.
     with zipfile.ZipFile(out_zip, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zf:
         for path in sorted(bundle_dir.rglob("*")):
             if path.is_file():
-                zf.write(path, path.relative_to(bundle_dir).as_posix())
+                info = zipfile.ZipInfo(
+                    filename=path.relative_to(bundle_dir).as_posix(),
+                    date_time=(1980, 1, 1, 0, 0, 0),
+                )
+                info.compress_type = zipfile.ZIP_DEFLATED
+                info.external_attr = 0o100644 << 16
+                with open(path, "rb") as src:
+                    zf.writestr(info, src.read())
 
     manifest = load_json(manifest_path)
     manifest["assets"] = {
