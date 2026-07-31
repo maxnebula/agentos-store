@@ -34,9 +34,7 @@
       "id": "game",
       "name": "Games",
       "icon": "\uD83C\uDFAE",
-      "items": [
-        "games/d2048/game.json"
-      ]
+      "items": []
     },
     {
       "id": "theme",
