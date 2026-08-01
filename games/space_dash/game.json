@@ -5,7 +5,7 @@
   "description": "A fast arcade space shooter: dodge asteroids, blast rocks, chain multipliers.",
   "longDescription": "Space Dash is the reference content pack for the AgentOS web engine. Steer your ship through a procedurally spawning asteroid belt, shoot rocks to score, and chain kills quickly to build a multiplier up to x8. Your high score is saved through the AgentOS bridge and survives game updates. The entire game is a single self-contained HTML file \u2014 no remote resources, fully offline after install.",
   "category": "game",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "author": "AgentOS",
   "engine": "web",
   "minEngineVersion": "1.0.0",
