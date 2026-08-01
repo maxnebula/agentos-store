@@ -1,49 +1,48 @@
 {
-  "storeName": "AgentOS Store",
-  "subtitle": "Discover micro-apps, skills, tools, games & themes for AgentOS",
-  "version": 1,
-  "categories": [
-    {
-      "id": "micro_app",
-      "name": "Micro-Apps",
-      "icon": "\uD83D\uDCF1",
-      "items": [
-        "micro_apps/webview_demo.json",
-        "micro_apps/water_glass.json"
-      ]
-    },
-    {
-      "id": "skill",
-      "name": "Skills",
-      "icon": "\uD83E\uDDE0",
-      "items": [
-        "skills/data_analyzer.json",
-        "skills/research_assistant.json"
-      ]
-    },
-    {
-      "id": "tool",
-      "name": "Tools",
-      "icon": "\uD83D\uDD27",
-      "items": [
-        "tools/polymarket.json",
-        "tools/arxiv.json"
-      ]
-    },
-    {
-      "id": "game",
-      "name": "Games",
-      "icon": "\uD83C\uDFAE",
-      "items": [
-        "games/space_dash/game.json",
-        "games/terraland/game.json"
-      ]
-    },
-    {
-      "id": "theme",
-      "name": "Themes",
-      "icon": "\uD83C\uDFA8",
-      "items": []
-    }
-  ]
+ "storeName": "AgentOS Store",
+ "subtitle": "Discover micro-apps, skills, tools, games & themes for AgentOS",
+ "version": 1,
+ "categories": [
+  {
+   "id": "micro_app",
+   "name": "Micro-Apps",
+   "icon": "📱",
+   "items": [
+    "micro_apps/webview_demo.json",
+    "micro_apps/water_glass.json"
+   ]
+  },
+  {
+   "id": "skill",
+   "name": "Skills",
+   "icon": "🧠",
+   "items": [
+    "skills/data_analyzer.json",
+    "skills/research_assistant.json"
+   ]
+  },
+  {
+   "id": "tool",
+   "name": "Tools",
+   "icon": "🔧",
+   "items": [
+    "tools/polymarket.json",
+    "tools/arxiv.json"
+   ]
+  },
+  {
+   "id": "game",
+   "name": "Games",
+   "icon": "🎮",
+   "items": [
+    "games/space_dash/game.json"
+   ]
+  },
+  {
+   "id": "theme",
+   "name": "Themes",
+   "icon": "🎨",
+   "items": []
+  }
+ ]
 }
