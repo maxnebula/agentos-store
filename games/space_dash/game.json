@@ -5,7 +5,7 @@
   "description": "A fast arcade space shooter: dodge asteroids, blast rocks, chain multipliers.",
   "longDescription": "Space Dash is the reference content pack for the AgentOS web engine. Steer your ship through a procedurally spawning asteroid belt, shoot rocks to score, and chain kills quickly to build a multiplier up to x8. Your high score is saved through the AgentOS bridge and survives game updates. The entire game is a single self-contained HTML file \u2014 no remote resources, fully offline after install.",
   "category": "game",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "AgentOS",
   "engine": "web",
   "minEngineVersion": "1.0.0",
@@ -13,8 +13,8 @@
   "screenshots": [],
   "assets": {
     "url": "https://raw.githubusercontent.com/maxnebula/agentos-store/main/dist/games/space_dash/bundle.zip",
-    "sha256": "f46fe68d90d80d8e541cdd73559a8076e259aa65ba31afde5b6eb1f0a6bc16f7",
-    "size": 5763
+    "sha256": "48717c61bba6575a943465c7dd350b1f3c30181f982ea8f4006694689f0e6e15",
+    "size": 5812
   },
   "size": "6 KB"
 }

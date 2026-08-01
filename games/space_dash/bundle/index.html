@@ -46,7 +46,7 @@
 </div>
 <div id="overlay">
   <h1>SPACE DASH</h1>
-  <p>Dodge the asteroid belt and blast rocks for score. Chain kills fast for a multiplier. Drag to fly — release to coast.</p>
+  <p>Dodge the asteroid belt and blast rocks for score. Chain kills fast for a multiplier. Drag to fly — release to coast. Your cannons auto-fire — just steer.</p>
   <div class="final">Score <b id="finalScore">0</b> &nbsp;·&nbsp; High <b class="hi" id="finalHigh">0</b></div>
   <button id="startBtn">START</button>
 </div>
@@ -111,6 +111,7 @@
   var shake = 0, invuln = 0, running = false, over = false;
   var dragging = false, pointer = { x: 0, y: 0 };
   var thrusting = false;
+  var fireCd = 0;
   var keys = {};
 
   function rand(a, b) { return a + Math.random() * (b - a); }
@@ -288,6 +289,8 @@
     if (keys.ArrowUp || keys.KeyW) { ay -= 900; thrusting = true; ship.angle = -Math.PI / 2; }
     if (keys.ArrowDown || keys.KeyS) { ay += 900; thrusting = true; ship.angle = Math.PI / 2; }
     if (keys.Space) shoot();
+    fireCd -= dt;
+    if (running && !over && fireCd <= 0) { shoot(); fireCd = 0.22; }
 
     ship.vx += ax * dt; ship.vy += ay * dt;
     var sp = Math.hypot(ship.vx, ship.vy);
