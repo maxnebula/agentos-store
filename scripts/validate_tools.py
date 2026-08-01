@@ -95,6 +95,9 @@ def check_world2d(game: dict, game_dir: Path) -> list[str]:
         ("worldgen.ores[*].block", [o.get("block") for o in wgen.get("ores", [])]),
         ("worldgen.seaTile", [wgen.get("seaTile")]),
         ("worldgen.bedrock", [wgen.get("bedrock")]),
+        ("worldgen.surface", [wgen.get("surface")]),
+        ("worldgen.sub", [wgen.get("sub")]),
+        ("worldgen.deep", [wgen.get("deep")]),
         ("hotbar", world.get("hotbar", [])),
     ):
         bad = missing(r for r in refs if r)

@@ -30,6 +30,9 @@
       "seaLevel": 4,
       "seaTile": "water",
       "bedrock": "bedrock",
+      "surface": "grass",
+      "sub": "dirt",
+      "deep": "stone",
       "heightmap": {
         "baseHeight": 14,
         "scale": 0.04,

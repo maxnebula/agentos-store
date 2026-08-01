@@ -102,12 +102,15 @@
         },
         "worldgen": {
           "type": "object",
-          "required": ["seaLevel", "heightmap"],
+          "required": ["seaLevel", "heightmap", "surface", "sub", "deep"],
           "additionalProperties": false,
           "properties": {
             "seaLevel": { "type": "integer", "minimum": 0, "description": "Blocks below or equal to this y are filled with the sea tile outside land. Must be within world height (checked by build_games.py)." },
             "seaTile": { "type": "string", "description": "Tile id used for sea fill. Defaults to the first tile flagged liquid." },
             "bedrock": { "type": "string", "pattern": "^[a-z0-9_]{1,32}$", "description": "Optional tile id placed at the bottom row y=0." },
+            "surface": { "type": "string", "pattern": "^[a-z0-9_]{1,32}$", "description": "Tile id of the top terrain layer." },
+            "sub": { "type": "string", "pattern": "^[a-z0-9_]{1,32}$", "description": "Tile id of the layer just below the surface." },
+            "deep": { "type": "string", "pattern": "^[a-z0-9_]{1,32}$", "description": "Tile id of the deep underground layers (also the ore host rock)." },
             "heightmap": {
               "type": "object",
               "required": ["baseHeight", "scale"],
