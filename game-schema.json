@@ -164,6 +164,56 @@
           }
         },
         "blockSize": { "type": "integer", "minimum": 8, "maximum": 64, "default": 24, "description": "Render scale of one block in pixels." },
+        "lighting": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "enabled": { "type": "boolean", "default": false, "description": "Enable underground darkness with player light radius." },
+            "skyLight": { "type": "number", "minimum": 0.0, "maximum": 1.0, "default": 1.0, "description": "Brightness of open sky (1.0 = full)." },
+            "undergroundDarkness": { "type": "number", "minimum": 0.0, "maximum": 1.0, "default": 0.15, "description": "Minimum light level underground (0 = pitch black)." },
+            "playerLightRadius": { "type": "integer", "minimum": 1, "maximum": 30, "default": 8, "description": "Radius in blocks of the player's light." },
+            "playerLightStrength": { "type": "number", "minimum": 0.0, "maximum": 1.0, "default": 1.0, "description": "Strength of player light (1.0 = full brightness at center)." }
+          }
+        },
+        "background": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "clouds": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "count": { "type": "integer", "minimum": 0, "maximum": 20, "default": 6 },
+                "minY": { "type": "number", "minimum": 0.0, "maximum": 1.0, "default": 0.05 },
+                "maxY": { "type": "number", "minimum": 0.0, "maximum": 1.0, "default": 0.25 },
+                "minW": { "type": "number", "exclusiveMinimum": 0, "default": 8.0 },
+                "maxW": { "type": "number", "exclusiveMinimum": 0, "default": 20.0 },
+                "speed": { "type": "number", "minimum": 0.0, "default": 0.3 },
+                "color": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$", "default": "#FFFFFF" },
+                "alpha": { "type": "number", "minimum": 0.0, "maximum": 1.0, "default": 0.4 }
+              }
+            },
+            "mountains": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "count": { "type": "integer", "minimum": 0, "maximum": 10, "default": 4 },
+                "minH": { "type": "number", "minimum": 0.0, "maximum": 1.0, "default": 0.08 },
+                "maxH": { "type": "number", "minimum": 0.0, "maximum": 1.0, "default": 0.22 },
+                "color": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$", "default": "#6B8E6B" },
+                "alpha": { "type": "number", "minimum": 0.0, "maximum": 1.0, "default": 0.25 }
+              }
+            }
+          }
+        },
+        "health": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "maxHealth": { "type": "integer", "minimum": 1, "maximum": 100, "default": 20 },
+            "showHearts": { "type": "boolean", "default": true }
+          }
+        },
         "player": {
           "type": "object",
           "required": ["reach"],
