@@ -159,9 +159,11 @@
                   "maxY": { "type": "integer", "minimum": 1 }
                 }
               }
-            }
+            },
+            "spawnFlatten": { "type": "integer", "minimum": 0, "default": 0, "description": "Half-width in blocks of the flattened spawn strip: blocks above the surface within the strip are removed (trees etc.) so the player spawns on open ground. 0 = no clearing." }
           }
         },
+        "blockSize": { "type": "integer", "minimum": 8, "maximum": 64, "default": 24, "description": "Render scale of one block in pixels." },
         "player": {
           "type": "object",
           "required": ["reach"],
