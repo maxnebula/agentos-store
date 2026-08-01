@@ -29,6 +29,7 @@
     "worldgen": {
       "seaLevel": 4,
       "seaTile": "water",
+      "bedrock": "bedrock",
       "heightmap": {
         "baseHeight": 14,
         "scale": 0.04,
@@ -43,7 +44,8 @@
         "leafBlock": "leaves",
         "density": 0.12,
         "minHeight": 4,
-        "maxHeight": 7
+        "maxHeight": 7,
+        "surface": ["grass"]
       },
       "ores": [
         { "block": "coal", "count": 8, "minY": 2, "maxY": 40 },

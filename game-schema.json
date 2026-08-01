@@ -107,6 +107,7 @@
           "properties": {
             "seaLevel": { "type": "integer", "minimum": 0, "description": "Blocks below or equal to this y are filled with the sea tile outside land. Must be within world height (checked by build_games.py)." },
             "seaTile": { "type": "string", "description": "Tile id used for sea fill. Defaults to the first tile flagged liquid." },
+            "bedrock": { "type": "string", "pattern": "^[a-z0-9_]{1,32}$", "description": "Optional tile id placed at the bottom row y=0." },
             "heightmap": {
               "type": "object",
               "required": ["baseHeight", "scale"],
@@ -138,7 +139,8 @@
                 "leafBlock": { "type": "string", "pattern": "^[a-z0-9_]{1,32}$" },
                 "density": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
                 "minHeight": { "type": "integer", "minimum": 1 },
-                "maxHeight": { "type": "integer", "minimum": 1 }
+                "maxHeight": { "type": "integer", "minimum": 1 },
+                "surface": { "type": "array", "description": "Tile ids trees may grow on. Defaults to every solid non-liquid tile.", "items": { "type": "string", "pattern": "^[a-z0-9_]{1,32}$" } }
               }
             },
             "ores": {
