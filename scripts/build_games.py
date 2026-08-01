@@ -3,10 +3,12 @@
 
 For every games/<id>/ package:
     1. Validate game.json against game-schema.json (fail hard).
-    2. Cross-check structure (entry exists, block refs, sea level, textures).
-    3. Zip bundle/ into dist/games/<id>/bundle.zip (deterministic ordering).
-    4. Write assets {url, sha256, size} and a human size label back into game.json.
-    5. Re-validate the updated manifest.
+    2. Cross-check structure (entry exists, block refs, sea level, trees/ores bounds).
+    3. Engine=web: zip bundle/ into dist/games/<id>/bundle.zip (deterministic
+       ordering), write assets {url, sha256, size} and a size label back into
+       game.json, then re-validate.
+       Engine=native2d: content is the declarative 'world' section in game.json
+       itself; no bundle is built and no assets field is written.
 
 Usage:
     python scripts/build_games.py                  # build every game
@@ -14,8 +16,9 @@ Usage:
     python scripts/build_games.py --check          # validate only (no writes); CI gate
 
 The committed game.json is always self-consistent: build_games.py is the only
-writer of the assets field. dist/ is gitignored; the zip is served from
-raw.githubusercontent.com exactly like every other store file.
+writer of the assets field. dist/ is a committed build artifact (raw GitHub
+serves committed files only) — the zip is served from raw.githubusercontent.com
+exactly like every other store file.
 """
 
 import argparse
@@ -52,13 +55,18 @@ def human_size(num: int) -> str:
 def build_bundle(game_dir: Path, schema: dict) -> list[str]:
     errors: list[str] = []
     manifest_path = game_dir / "game.json"
-    bundle_dir = game_dir / "bundle"
+    game = load_json(manifest_path)
 
     errors += validate_file(schema, manifest_path)
     errors += check_game_source(game_dir)
     if errors:
         return errors
 
+    if game.get("engine") == "native2d":
+        # Declarative package: world lives in game.json, no zip, no assets.
+        return validate_file(schema, manifest_path) + check_game_integrity(manifest_path)
+
+    bundle_dir = game_dir / "bundle"
     if not bundle_dir.is_dir():
         return [f"  bundle/: missing directory {bundle_dir.relative_to(REPO)}"]
 
@@ -79,16 +87,15 @@ def build_bundle(game_dir: Path, schema: dict) -> list[str]:
                 with open(path, "rb") as src:
                     zf.writestr(info, src.read())
 
-    manifest = load_json(manifest_path)
-    manifest["assets"] = {
+    game["assets"] = {
         "url": f"{DIST_URL_BASE}/{game_dir.name}/bundle.zip",
         "sha256": hashlib.sha256(out_zip.read_bytes()).hexdigest(),
         "size": out_zip.stat().st_size,
     }
-    manifest["size"] = human_size(out_zip.stat().st_size)
+    game["size"] = human_size(out_zip.stat().st_size)
 
     with open(manifest_path, "w", encoding="utf-8") as f:
-        json.dump(manifest, f, indent=2, ensure_ascii=True)
+        json.dump(game, f, indent=2, ensure_ascii=True)
         f.write("\n")
 
     errors += validate_file(schema, manifest_path)

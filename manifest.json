@@ -34,7 +34,10 @@
       "id": "game",
       "name": "Games",
       "icon": "\uD83C\uDFAE",
-      "items": []
+      "items": [
+        "games/space_dash/game.json",
+        "games/terraland/game.json"
+      ]
     },
     {
       "id": "theme",

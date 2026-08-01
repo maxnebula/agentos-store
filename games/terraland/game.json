@@ -1,0 +1,71 @@
+{
+  "id": "terraland",
+  "name": "TerraLand",
+  "icon": "🌄",
+  "description": "A generated 2D sandbox world: dig, place and explore procedurally generated terrain.",
+  "longDescription": "TerraLand is the reference content pack for the AgentOS 2D engine. Every world is procedurally generated from its seed: rolling hills, caves, forests and ore veins. Tap a block to dig, tap the ground to place from your hotbar, and hold the arrow buttons to move. Your world is fully data-driven — terrain, tiles, physics and theme all come from the package, not the app.",
+  "category": "game",
+  "version": "1.0.0",
+  "author": "AgentOS",
+  "engine": "native2d",
+  "minEngineVersion": "1.0.0",
+  "world": {
+    "size": { "width": 256, "height": 64 },
+    "seed": 42,
+    "blocks": [
+      { "id": "grass", "name": "Grass", "color": "#4CAF50" },
+      { "id": "dirt", "name": "Dirt", "color": "#795548" },
+      { "id": "stone", "name": "Stone", "color": "#9E9E9E" },
+      { "id": "wood", "name": "Wood", "color": "#5D4037" },
+      { "id": "leaves", "name": "Leaves", "color": "#2E7D32", "solid": false, "liquid": false },
+      { "id": "sand", "name": "Sand", "color": "#FDD835" },
+      { "id": "water", "name": "Water", "color": "#4F9DD8", "solid": false, "liquid": true },
+      { "id": "coal", "name": "Coal Ore", "color": "#424242", "icon": "⬛" },
+      { "id": "iron", "name": "Iron Ore", "color": "#D7CCC8" },
+      { "id": "gold", "name": "Gold Ore", "color": "#FFD700" },
+      { "id": "bedrock", "name": "Bedrock", "color": "#212121" },
+      { "id": "snow", "name": "Snow", "color": "#FAFAFA", "solid": false, "liquid": false }
+    ],
+    "worldgen": {
+      "seaLevel": 4,
+      "seaTile": "water",
+      "heightmap": {
+        "baseHeight": 14,
+        "scale": 0.04,
+        "amplitude": 5.0,
+        "octaves": 3,
+        "persistence": 0.5,
+        "lacunarity": 2.0
+      },
+      "caves": { "enabled": true, "density": 0.004, "maxHeight": 40 },
+      "trees": {
+        "block": "wood",
+        "leafBlock": "leaves",
+        "density": 0.12,
+        "minHeight": 4,
+        "maxHeight": 7
+      },
+      "ores": [
+        { "block": "coal", "count": 8, "minY": 2, "maxY": 40 },
+        { "block": "iron", "count": 5, "minY": 3, "maxY": 30 },
+        { "block": "gold", "count": 3, "minY": 5, "maxY": 20 }
+      ]
+    },
+    "player": {
+      "spawnX": "auto",
+      "reach": 4,
+      "width": 0.6,
+      "height": 1.8,
+      "speed": 5.0,
+      "jumpSpeed": 9.0,
+      "gravity": 22.0
+    },
+    "hotbar": ["stone", "dirt", "grass", "wood", "sand", "coal"],
+    "theme": {
+      "sky": "#1A1A2E",
+      "sea": "#2196F3",
+      "ground": "#14141F",
+      "highlight": "#FFFFFF"
+    }
+  }
+}

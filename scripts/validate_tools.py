@@ -60,51 +60,85 @@ def check_game_source(game_dir: Path) -> list[str]:
     """Structural checks on the authoring source (no built zip involved)."""
     errors: list[str] = []
     game = load_json(game_dir / "game.json")
+    engine = game.get("engine")
     bundle_dir = game_dir / "bundle"
 
-    entry = game.get("entry")
-    if entry and not (bundle_dir / entry).is_file():
-        errors.append(f"  entry: '{entry}' not found inside bundle/")
-
-    if not bundle_dir.is_dir():
-        errors.append(f"  bundle/: missing directory {bundle_dir.relative_to(REPO)}")
+    if engine == "web":
+        entry = game.get("entry")
+        if entry and not (bundle_dir / entry).is_file():
+            errors.append(f"  entry: '{entry}' not found inside bundle/")
+        if not bundle_dir.is_dir():
+            errors.append(f"  bundle/: missing directory {bundle_dir.relative_to(REPO)}")
         return errors
 
-    world = game.get("world")
-    if not world:
-        return errors
+    if engine == "native2d":
+        return check_world2d(game, game_dir)
 
+    errors.append(f"  engine: unknown engine '{engine}' (expected web or native2d)")
+    return errors
+
+
+def check_world2d(game: dict, game_dir: Path) -> list[str]:
+    """Cross-reference and bounds checks for native2d world definitions."""
+    errors: list[str] = []
+    world = game.get("world") or {}
     block_ids = {b.get("id") for b in world.get("blocks", [])}
     missing = lambda refs: sorted(ref for ref in refs if ref not in block_ids)
 
+    wgen = world.get("worldgen", {})
+    height = world.get("size", {}).get("height")
+
     for ref_name, refs in (
+        ("worldgen.trees.block", [wgen.get("trees", {}).get("block")]),
+        ("worldgen.trees.leafBlock", [wgen.get("trees", {}).get("leafBlock")]),
+        ("worldgen.ores[*].block", [o.get("block") for o in wgen.get("ores", [])]),
+        ("worldgen.seaTile", [wgen.get("seaTile")]),
         ("hotbar", world.get("hotbar", [])),
-        ("worldgen.trees.block", [world.get("worldgen", {}).get("trees", {}).get("block")]),
-        ("worldgen.trees.leafBlock", [world.get("worldgen", {}).get("trees", {}).get("leafBlock")]),
-        ("worldgen.ore[*].block", [o.get("block") for o in world.get("worldgen", {}).get("ore", [])]),
     ):
         bad = missing(r for r in refs if r)
         if bad:
             errors.append(f"  world.{ref_name}: unknown block id(s): {', '.join(bad)}")
 
-    for i, biome in enumerate(world.get("worldgen", {}).get("biomes", [])):
-        bad = missing([biome.get("surface"), biome.get("sub")])
-        if bad:
-            errors.append(f"  world.worldgen.biomes[{i}]: unknown block id(s): {', '.join(bad)}")
+    if world.get("blocks") is not None:
+        ids = [b.get("id") for b in world["blocks"]]
+        dupes = sorted({i for i in ids if ids.count(i) > 1})
+        if dupes:
+            errors.append(f"  world.blocks: duplicate block id(s): {', '.join(dupes)}")
 
-    height = world.get("size", {}).get("cy")
-    sea_level = world.get("worldgen", {}).get("seaLevel")
+    sea_level = wgen.get("seaLevel")
     if height and sea_level is not None and not (0 <= sea_level < height):
-        errors.append(f"  world.worldgen.seaLevel {sea_level} outside world height 0..{height - 1}")
+        errors.append(
+            f"  world.worldgen.seaLevel {sea_level} outside world height 0..{height - 1}"
+        )
 
-    if world.get("blocks"):
-        tex_dir = bundle_dir / "textures"
-        tex_files = sorted(tex_dir.glob("tile_*.png")) if tex_dir.is_dir() else []
-        tile_count = len(tex_files)
-        max_tile = max((b.get("tile", 0) for b in world["blocks"]), default=0)
-        if tile_count and max_tile >= tile_count:
+    base_height = wgen.get("heightmap", {}).get("baseHeight")
+    if height and base_height is not None and base_height >= height:
+        errors.append(
+            f"  world.worldgen.heightmap.baseHeight {base_height} must be below world height {height}"
+        )
+
+    trees = wgen.get("trees") or {}
+    if trees:
+        if trees.get("minHeight", 1) > trees.get("maxHeight", 1):
             errors.append(
-                f"  world.blocks: tile index {max_tile} out of range (bundle has {tile_count} textures)"
+                f"  world.worldgen.trees: minHeight {trees.get('minHeight')} > "
+                f"maxHeight {trees.get('maxHeight')}"
+            )
+        if height and trees.get("maxHeight", 0) + (base_height or 0) >= height:
+            errors.append(
+                f"  world.worldgen.trees: maxHeight {trees.get('maxHeight')} with baseHeight "
+                f"{base_height} exceeds world height {height}"
+            )
+
+    for i, ore in enumerate(wgen.get("ores", [])):
+        if ore.get("minY", 0) > ore.get("maxY", 0):
+            errors.append(
+                f"  world.worldgen.ores[{i}]: minY {ore.get('minY')} > maxY {ore.get('maxY')}"
+            )
+        if height and ore.get("maxY", 0) >= height:
+            errors.append(
+                f"  world.worldgen.ores[{i}]: maxY {ore.get('maxY')} outside world height "
+                f"0..{height - 1}"
             )
 
     return errors
@@ -114,6 +148,10 @@ def check_game_bundle(game_dir: Path) -> list[str]:
     """Integrity checks against the built bundle zip and the committed assets field."""
     errors: list[str] = []
     game = load_json(game_dir / "game.json")
+
+    if game.get("engine") != "web":
+        return errors
+
     bundle_zip = REPO / "dist" / "games" / game_dir.name / "bundle.zip"
 
     if not bundle_zip.is_file():
@@ -124,10 +162,13 @@ def check_game_bundle(game_dir: Path) -> list[str]:
         return errors
 
     entry = game.get("entry")
-    if entry:
-        with zipfile.ZipFile(bundle_zip) as zf:
-            if entry not in zf.namelist():
-                errors.append(f"  entry: '{entry}' not found inside bundle.zip")
+    with zipfile.ZipFile(bundle_zip) as zf:
+        names = zf.namelist()
+        if entry and entry not in names:
+            errors.append(f"  entry: '{entry}' not found inside bundle.zip")
+        for name in names:
+            if name.startswith("/") or ".." in name.split("/"):
+                errors.append(f"  bundle.zip: unsafe entry path '{name}'")
 
     actual_sha = hashlib.sha256(bundle_zip.read_bytes()).hexdigest()
     assets = game.get("assets", {})
@@ -147,7 +188,11 @@ def check_game_bundle(game_dir: Path) -> list[str]:
 
 def check_game_integrity(item_path: Path) -> list[str]:
     """Full structural + bundle integrity checks for a game definition."""
-    return check_game_source(item_path.parent) + check_game_bundle(item_path.parent)
+    game_dir = item_path.parent
+    errors = check_game_source(game_dir)
+    if (load_json(item_path).get("engine")) == "web":
+        errors += check_game_bundle(game_dir)
+    return errors
 
 
 def find_game_files(repo: Path) -> list[Path]:

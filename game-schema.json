@@ -1,10 +1,11 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://maxnebula.github.io/agentos-store/game-schema.json",
-  "title": "AgentOS Store Game Definition",
-  "description": "Schema for game definitions in the AgentOS store (games/*/game.json). Games are declarative content packages driven by an in-app engine; they carry no execution surface of their own.",
+  "title": "AgentOS Store Game Package",
+  "description": "Engine-agnostic game package format for the AgentOS store. Games are declarative content packages driven by in-app engines (engine/content separation); the store never ships executable platform code. The core block is shared by every engine; engine-specific content is declared under 'world' (native2d) or as a zip bundle (web).",
   "type": "object",
-  "required": ["id", "name", "description", "category", "version", "engine", "minEngineVersion", "entry", "assets"],
+  "required": ["id", "name", "description", "category", "version", "engine", "minEngineVersion"],
+  "additionalProperties": false,
   "properties": {
     "id": {
       "type": "string",
@@ -12,15 +13,15 @@
       "description": "Unique game id, lowercase alphanumeric with _ and -"
     },
     "name": { "type": "string", "minLength": 1 },
-    "icon": { "type": "string" },
+    "icon": { "type": "string", "description": "Single emoji or short text shown in the store" },
     "description": { "type": "string", "minLength": 1 },
     "longDescription": { "type": "string" },
     "category": { "const": "game" },
     "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "description": "Semver of the game package" },
     "author": { "type": "string" },
     "engine": {
-      "enum": ["web", "voxel"],
-      "description": "Runtime that plays this game. Unknown engines are rejected at install by the app's EngineRegistry."
+      "enum": ["web", "native2d"],
+      "description": "In-app engine that plays this game. Unknown engines are rejected at install by the app's EngineRegistry."
     },
     "minEngineVersion": {
       "type": "string",
@@ -30,17 +31,17 @@
     "entry": {
       "type": "string",
       "minLength": 1,
-      "description": "Relative path of the entry point inside the bundle (e.g. index.html). Must exist in the bundle zip (checked by build_games.py and at install)."
+      "description": "Engine=web only: relative path of the entry point inside the bundle zip (e.g. index.html). Must exist in the bundle (checked by build_games.py and at install)."
     },
     "assets": {
       "type": "object",
-      "description": "Bundle metadata. Written by build_games.py (authoring: {}); sha256/size/url must match the built bundle — mismatches fail validation.",
+      "description": "Engine=web only: bundle metadata. Written by build_games.py; sha256/size/url must match the built zip - mismatches fail validation.",
+      "additionalProperties": false,
       "properties": {
         "url": { "type": "string", "pattern": "^https://", "description": "Bundle zip URL (raw.githubusercontent.com/agentos-store/dist/games/<id>/bundle.zip)" },
         "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$", "description": "Hex sha256 of the bundle zip; written by build_games.py" },
         "size": { "type": "integer", "minimum": 0, "description": "Bundle zip size in bytes; written by build_games.py" }
-      },
-      "additionalProperties": false
+      }
     },
     "screenshots": {
       "type": "array",
@@ -51,89 +52,81 @@
       "description": "Human-readable size label; written by build_games.py"
     },
     "world": {
-      "$ref": "#/definitions/world",
-      "description": "Engine content definition. Required for engine=voxel, forbidden for engine=web."
+      "$ref": "#/definitions/world2d",
+      "description": "Engine=native2d only: full declarative world definition played by the in-app 2D engine. Forbidden for engine=web."
     }
   },
+  "if": { "properties": { "engine": { "const": "web" } }, "required": ["engine"] },
+  "then": {
+    "required": ["entry"],
+    "properties": { "world": false }
+  },
+  "else": {
+    "required": ["world"],
+    "properties": { "entry": false, "assets": false }
+  },
   "definitions": {
-    "world": {
+    "world2d": {
       "type": "object",
       "required": ["size", "blocks", "worldgen", "player", "hotbar"],
       "additionalProperties": false,
       "properties": {
         "size": {
           "type": "object",
-          "required": ["cx", "cy", "cz"],
+          "required": ["width", "height"],
           "additionalProperties": false,
           "properties": {
-            "cx": { "type": "integer", "minimum": 8, "maximum": 32 },
-            "cy": { "type": "integer", "minimum": 16, "maximum": 512, "description": "World height" },
-            "cz": { "type": "integer", "minimum": 8, "maximum": 32 }
+            "width": { "type": "integer", "minimum": 64, "maximum": 2048, "description": "World width in blocks" },
+            "height": { "type": "integer", "minimum": 32, "maximum": 512, "description": "World height in blocks" }
           }
         },
         "seed": { "type": "integer", "minimum": 0, "description": "World seed; 0 = random at world creation" },
         "blocks": {
           "type": "array",
           "minItems": 1,
-          "description": "Block registry; block ids must be unique. Cross-references (hotbar/biomes/trees/ore) are checked by build_games.py and at install.",
+          "maxItems": 64,
+          "description": "Tile registry; ids must be unique. Block id 0 is reserved for air and must not be declared. Cross-references (worldgen/hotbar) are checked by build_games.py and at install.",
           "items": {
             "type": "object",
-            "required": ["id", "name", "tile", "flags"],
-            "additionalProperties": true,
+            "required": ["id", "name", "color"],
+            "additionalProperties": false,
             "properties": {
               "id": { "type": "string", "pattern": "^[a-z0-9_]{1,32}$" },
               "name": { "type": "string", "minLength": 1 },
-              "tile": { "type": "integer", "minimum": 0, "description": "Index into the baked texture atlas (textures/tile_<N>.png)" },
-              "flags": {
-                "type": "array",
-                "minItems": 1,
-                "uniqueItems": true,
-                "items": { "enum": ["solid", "transparent", "liquid", "emissive"] }
-              },
-              "tint": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
-              "opacity": { "type": "number", "minimum": 0.0, "maximum": 1.0 }
+              "color": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$", "description": "Fill color of the tile" },
+              "icon": { "type": "string", "description": "Optional emoji overlay rendered in-world" },
+              "solid": { "type": "boolean", "default": true, "description": "Collides with the player and can be placed" },
+              "liquid": { "type": "boolean", "default": false, "description": "Rendered transparently, not solid" }
             }
           }
         },
         "worldgen": {
           "type": "object",
-          "required": ["seaLevel", "heightmap", "biomes"],
-          "additionalProperties": true,
+          "required": ["seaLevel", "heightmap"],
+          "additionalProperties": false,
           "properties": {
-            "seaLevel": { "type": "integer", "description": "Must be within world height (checked by build_games.py)" },
+            "seaLevel": { "type": "integer", "minimum": 0, "description": "Blocks below or equal to this y are filled with the sea tile outside land. Must be within world height (checked by build_games.py)." },
+            "seaTile": { "type": "string", "description": "Tile id used for sea fill. Defaults to the first tile flagged liquid." },
             "heightmap": {
               "type": "object",
-              "required": ["scale", "octaves", "persistence", "lacunarity"],
+              "required": ["baseHeight", "scale"],
               "additionalProperties": false,
               "properties": {
+                "baseHeight": { "type": "integer", "minimum": 1 },
                 "scale": { "type": "number", "exclusiveMinimum": 0 },
-                "octaves": { "type": "integer", "minimum": 1, "maximum": 8 },
+                "amplitude": { "type": "number", "minimum": 0.0 },
+                "octaves": { "type": "integer", "minimum": 1, "maximum": 6 },
                 "persistence": { "type": "number", "minimum": 0.0, "maximum": 1.0 },
                 "lacunarity": { "type": "number", "exclusiveMinimum": 1.0 }
               }
             },
             "caves": {
               "type": "object",
-              "required": ["threshold", "scale"],
               "additionalProperties": false,
               "properties": {
-                "threshold": { "type": "number" },
-                "scale": { "type": "number", "exclusiveMinimum": 0 }
-              }
-            },
-            "biomes": {
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "type": "object",
-                "required": ["min", "max", "surface", "sub"],
-                "additionalProperties": true,
-                "properties": {
-                  "min": { "type": "number" },
-                  "max": { "type": "number" },
-                  "surface": { "type": "string", "pattern": "^[a-z0-9_]{1,32}$" },
-                  "sub": { "type": "string", "pattern": "^[a-z0-9_]{1,32}$" }
-                }
+                "enabled": { "type": "boolean", "default": false },
+                "density": { "type": "number", "minimum": 0.0, "maximum": 1.0, "default": 0.005 },
+                "maxHeight": { "type": "integer", "minimum": 1 }
               }
             },
             "trees": {
@@ -148,17 +141,17 @@
                 "maxHeight": { "type": "integer", "minimum": 1 }
               }
             },
-            "ore": {
+            "ores": {
               "type": "array",
               "items": {
                 "type": "object",
                 "required": ["block", "count", "minY", "maxY"],
-                "additionalProperties": true,
+                "additionalProperties": false,
                 "properties": {
                   "block": { "type": "string", "pattern": "^[a-z0-9_]{1,32}$" },
                   "count": { "type": "integer", "minimum": 1 },
-                  "minY": { "type": "integer" },
-                  "maxY": { "type": "integer" }
+                  "minY": { "type": "integer", "minimum": 0 },
+                  "maxY": { "type": "integer", "minimum": 1 }
                 }
               }
             }
@@ -167,19 +160,32 @@
         "player": {
           "type": "object",
           "required": ["reach"],
-          "additionalProperties": true,
+          "additionalProperties": false,
           "properties": {
-            "spawn": { "enum": ["auto"] },
-            "reach": { "type": "number", "minimum": 1.0, "maximum": 12.0 },
-            "fly": { "type": "boolean" },
-            "gravity": { "type": "number", "exclusiveMinimum": 0 },
-            "jumpSpeed": { "type": "number", "exclusiveMinimum": 0 }
+            "spawnX": { "oneOf": [{ "const": "auto" }, { "type": "integer", "minimum": 0 }], "default": "auto" },
+            "reach": { "type": "number", "minimum": 1.0, "maximum": 12.0, "description": "Block reach in blocks" },
+            "width": { "type": "number", "minimum": 0.1, "maximum": 2.0, "default": 0.6 },
+            "height": { "type": "number", "minimum": 0.2, "maximum": 4.0, "default": 1.8 },
+            "speed": { "type": "number", "exclusiveMinimum": 0, "default": 5.0 },
+            "jumpSpeed": { "type": "number", "exclusiveMinimum": 0, "default": 9.0 },
+            "gravity": { "type": "number", "exclusiveMinimum": 0, "default": 22.0 }
           }
         },
         "hotbar": {
           "type": "array",
           "minItems": 1,
+          "maxItems": 9,
           "items": { "type": "string", "pattern": "^[a-z0-9_]{1,32}$" }
+        },
+        "theme": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "sky": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$", "default": "#1A1A2E" },
+            "sea": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$", "default": "#2196F3" },
+            "ground": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$", "default": "#14141F" },
+            "highlight": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$", "default": "#FFFFFF" }
+          }
         }
       }
     }
