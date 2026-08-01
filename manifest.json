@@ -34,9 +34,7 @@
       "id": "game",
       "name": "Games",
       "icon": "\uD83C\uDFAE",
-      "items": [
-        "games/voxelcraft/game.json"
-      ]
+      "items": []
     },
     {
       "id": "theme",
