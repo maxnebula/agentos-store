@@ -15,11 +15,11 @@
     "blockSize": 48,
     "blocks": [
       { "id": "grass", "name": "Grass", "color": "#4CAF50" },
-      { "id": "dirt", "name": "Dirt", "color": "#8D6E63", "falls": true },
+      { "id": "dirt", "name": "Dirt", "color": "#8D6E63" },
       { "id": "stone", "name": "Stone", "color": "#78909C" },
       { "id": "wood", "name": "Wood", "color": "#6D4C41" },
       { "id": "leaves", "name": "Leaves", "color": "#2E7D32" },
-      { "id": "sand", "name": "Sand", "color": "#EEDC82", "falls": true },
+      { "id": "sand", "name": "Sand", "color": "#EEDC82" },
       { "id": "water", "name": "Water", "color": "#2196F3", "solid": false, "liquid": true },
       { "id": "coal", "name": "Coal Ore", "color": "#37474F", "icon": "⬛" },
       { "id": "iron", "name": "Iron Ore", "color": "#B0BEC5" },
