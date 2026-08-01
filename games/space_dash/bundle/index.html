@@ -104,7 +104,8 @@
   /* ---------- Game state ---------- */
   var HIGH_KEY = "space_dash_high";
   var highScore = 0;
-  try { highScore = parseInt(bridge.load(HIGH_KEY), 10) || 0; } catch (e) {}
+  try { highScore = parseInt(bridge.load(HIGH_KEY), 10) || 0; } catch (e) { console.log("load threw: " + e); }
+  console.log("init loaded high=" + highScore + " agentos=" + (window.AgentOS ? "yes" : "no"));
 
   var stars = [];
   var ship = null, bullets = [], rocks = [], parts = [], floaters = [];
@@ -224,7 +225,7 @@
     if (bridge.vibrate) bridge.vibrate([80, 60, 80]);
     if (score > highScore) {
       highScore = score;
-      try { bridge.save(HIGH_KEY, String(highScore)); } catch (e) {}
+      try { bridge.save(HIGH_KEY, String(highScore)); console.log("saved high=" + highScore); } catch (e) { console.log("save threw: " + e); }
       soundHigh();
     }
     finalScoreEl.textContent = score;
