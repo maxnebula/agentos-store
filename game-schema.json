@@ -96,7 +96,8 @@
               "color": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$", "description": "Fill color of the tile" },
               "icon": { "type": "string", "description": "Optional emoji overlay rendered in-world" },
               "solid": { "type": "boolean", "default": true, "description": "Collides with the player and can be placed" },
-              "liquid": { "type": "boolean", "default": false, "description": "Rendered transparently, not solid" }
+              "liquid": { "type": "boolean", "default": false, "description": "Rendered transparently, not solid" },
+              "falls": { "type": "boolean", "default": false, "description": "Block falls when unsupported (gravity)" }
             }
           }
         },
